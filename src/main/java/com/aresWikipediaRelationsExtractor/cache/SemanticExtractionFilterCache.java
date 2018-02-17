@@ -63,6 +63,11 @@ public final class SemanticExtractionFilterCache {
         semanticExtractionAllowedTags.add(Tags.VERB);
         semanticExtractionAllowedTags.add(Tags.VERB_ING);
         semanticExtractionAllowedTags.add(Tags.VERB_ED);
+        semanticExtractionAllowedTags.add(Tags.WH_ADVERB);
+        semanticExtractionAllowedTags.add(Tags.WH_DETERMINER);
+        semanticExtractionAllowedTags.add(Tags.WH_PRONOUN);
+        semanticExtractionAllowedTags.add(Tags.WH_PRONOUN_POSSESSIVE);
+
 
 
         simpleVerbSequenceExtendedAllowedTags.add(Tags.HAVE);
@@ -155,6 +160,13 @@ public final class SemanticExtractionFilterCache {
         subjectNounPredicateExtractionAllowedTags.add(Tags.TO);
         subjectNounPredicateExtractionAllowedTags.add(Tags.VERB_ING);
         subjectNounPredicateExtractionAllowedTags.add(Tags.VERB_ED);
+        subjectNounPredicateExtractionAllowedTags.add(Tags.WH_ADVERB);
+        subjectNounPredicateExtractionAllowedTags.add(Tags.WH_DETERMINER);
+        subjectNounPredicateExtractionAllowedTags.add(Tags.WH_PRONOUN);
+        subjectNounPredicateExtractionAllowedTags.add(Tags.WH_PRONOUN_POSSESSIVE);
+
+
+
 
         negativeVerbPredicateTags.add(Tags.NOT);
         negativeVerbPredicateTags.add(Tags.DO_NOT);

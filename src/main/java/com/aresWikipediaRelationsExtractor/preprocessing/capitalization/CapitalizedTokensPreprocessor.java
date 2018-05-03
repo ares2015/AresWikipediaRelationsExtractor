@@ -1,4 +1,4 @@
-package com.aresWikipediaRelationsExtractor.preprocessing;
+package com.aresWikipediaRelationsExtractor.preprocessing.capitalization;
 
 import com.aresWikipediaRelationsExtractor.data.InputData;
 

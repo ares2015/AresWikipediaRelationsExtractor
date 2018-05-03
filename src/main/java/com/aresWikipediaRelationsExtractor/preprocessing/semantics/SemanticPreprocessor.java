@@ -1,4 +1,4 @@
-package com.aresWikipediaRelationsExtractor.preprocessing;
+package com.aresWikipediaRelationsExtractor.preprocessing.semantics;
 
 import com.aresWikipediaRelationsExtractor.data.SemanticPreprocessingData;
 

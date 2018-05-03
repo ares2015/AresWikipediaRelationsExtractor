@@ -29,6 +29,14 @@ public final class WikipediaProcessingData {
 
     private List<String> tagsList;
 
+    private boolean isStanfordCorrectRelation;
+
+    private String stanfordSubject;
+
+    private String stanfordRelation;
+
+    private String stanfordObject;
+
     public String getSentence() {
         return sentence;
     }
@@ -117,4 +125,35 @@ public final class WikipediaProcessingData {
         this.tagsList = tagsList;
     }
 
+    public boolean isStanfordCorrectRelation() {
+        return isStanfordCorrectRelation;
+    }
+
+    public void setStanfordCorrectRelation(boolean stanfordCorrectRelation) {
+        isStanfordCorrectRelation = stanfordCorrectRelation;
+    }
+
+    public String getStanfordSubject() {
+        return stanfordSubject;
+    }
+
+    public void setStanfordSubject(String stanfordSubject) {
+        this.stanfordSubject = stanfordSubject;
+    }
+
+    public String getStanfordRelation() {
+        return stanfordRelation;
+    }
+
+    public void setStanfordRelation(String stanfordRelation) {
+        this.stanfordRelation = stanfordRelation;
+    }
+
+    public String getStanfordObject() {
+        return stanfordObject;
+    }
+
+    public void setStanfordObject(String stanfordObject) {
+        this.stanfordObject = stanfordObject;
+    }
 }

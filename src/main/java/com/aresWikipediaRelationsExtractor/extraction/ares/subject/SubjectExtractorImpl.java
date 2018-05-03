@@ -13,8 +13,6 @@ import java.util.logging.Logger;
  */
 public class SubjectExtractorImpl implements SubjectExtractor {
 
-    private final static Logger LOGGER = Logger.getLogger(SubjectExtractorImpl.class.getName());
-
     @Override
     public void extract(WikipediaProcessingData wikipediaProcessingData, SemanticPreprocessingData semanticPreprocessingData) {
         List<String> tokensList = semanticPreprocessingData.getTokensList();
@@ -24,12 +22,10 @@ public class SubjectExtractorImpl implements SubjectExtractor {
             String atomicSubject = "";
             atomicSubject = extractAtomicSubject(tokensList, tagsList, extractionEndIndex);
             wikipediaProcessingData.setAtomicSubject(atomicSubject);
-            //LOGGER.info("Atomic subject: " + atomicSubject);
         }
         if (extractionEndIndex > 1) {
             String extendedSubject = extractExtendedSubject(tokensList, tagsList, extractionEndIndex);
             wikipediaProcessingData.setExtendedSubject(extendedSubject);
-            //LOGGER.info("Extended subject: " + extendedSubject);
         }
     }
 

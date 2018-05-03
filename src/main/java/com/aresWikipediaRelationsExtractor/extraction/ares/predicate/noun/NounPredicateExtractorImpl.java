@@ -13,9 +13,6 @@ import java.util.logging.Logger;
  */
 public class NounPredicateExtractorImpl implements NounPredicateExtractor {
 
-    private final static Logger LOGGER = Logger.getLogger(NounPredicateExtractorImpl.class.getName());
-
-
     @Override
     public void extract(WikipediaProcessingData wikipediaProcessingData, SemanticPreprocessingData semanticPreprocessingData) {
         List<String> tokensList = semanticPreprocessingData.getTokensList();
@@ -26,12 +23,10 @@ public class NounPredicateExtractorImpl implements NounPredicateExtractor {
             String atomicNounPredicate = extractAtomicNounPredicate(tokensList, tagsList, extractionStartIndex,
                     afterVerbPrepositionIndex, semanticPreprocessingData.getVerbIndex());
             wikipediaProcessingData.setAtomicNounPredicate(atomicNounPredicate);
-            //LOGGER.info("Atomic noun predicate: " + atomicNounPredicate);
         }
         String extendedNounPredicate = extractExtendedNounPredicate(tokensList, extractionStartIndex);
 
         wikipediaProcessingData.setExtendedNounPredicate(extendedNounPredicate);
-        //LOGGER.info("Extended noun predicate: " + extendedNounPredicate);
     }
 
     private String extractAtomicNounPredicate(List<String> tokensList, List<String> tagsList,

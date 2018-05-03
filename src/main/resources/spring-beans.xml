@@ -5,6 +5,8 @@
 
     <bean id="wikipediaDataWriter" class="com.aresWikipediaRelationsExtractor.writer.WikipediaDataWriterImpl"/>
 
+    <bean id="stanfordWikipediaDataWriter" class="com.aresWikipediaRelationsExtractor.writer.StanfordWikipediaDataWriterImpl"/>
+
     <bean id="tokenizer" class="com.aresWikipediaRelationsExtractor.tokens.TokenizerImpl"/>
 
     <bean id="inputDataFactory"
@@ -18,10 +20,13 @@
     </bean>
 
     <bean id="capitalizedTokensPreprocessor"
-          class="com.aresWikipediaRelationsExtractor.preprocessing.CapitalizedTokensPreprocessorImpl"/>
+          class="com.aresWikipediaRelationsExtractor.preprocessing.capitalization.CapitalizedTokensPreprocessorImpl"/>
 
-    <bean id="semanticPreprocessor" class="com.aresWikipediaRelationsExtractor.preprocessing.SemanticPreprocessorImpl"/>
+    <bean id="sequenceDetector" class="com.aresWikipediaRelationsExtractor.preprocessing.semantics.SequenceDetectorImpl"/>
 
+    <bean id="semanticPreprocessor" class="com.aresWikipediaRelationsExtractor.preprocessing.semantics.SemanticPreprocessorImpl">
+        <constructor-arg ref="sequenceDetector"/>
+    </bean>
     <bean id="subjectExtractor" class="com.aresWikipediaRelationsExtractor.extraction.ares.subject.SubjectExtractorImpl"/>
 
     <bean id="verbPredicateSequenceExtractor"
@@ -56,27 +61,15 @@
 
     <bean id="posTagger" class="com.aresWikipediaRelationsExtractor.tagger.PosTagger"/>
 
-    <bean id="predicateExtractor"
-          class="com.aresWikipediaRelationsExtractor.extraction.external.PredicateExtractorImpl"/>
-
-    <bean id="reverbSemanticRelationsExtractor"
-          class="com.aresWikipediaRelationsExtractor.extraction.external.reverb.ReverbSemanticRelationsExtractorImpl">
-        <constructor-arg ref="predicateExtractor"/>
-        <constructor-arg ref="posTagger"/>
-        <constructor-arg ref="wikipediaDataWriter"/>
-    </bean>
-
     <bean id="stanfordSemanticRelationsExtractor"
-          class="com.aresWikipediaRelationsExtractor.extraction.external.stanford.StanfordSemanticRelationsExtractorImpl">
-        <constructor-arg ref="predicateExtractor"/>
-        <constructor-arg ref="wikipediaDataWriter"/>
+          class="com.aresWikipediaRelationsExtractor.extraction.stanford.StanfordSemanticRelationsExtractorImpl">
+        <constructor-arg ref="stanfordWikipediaDataWriter"/>
     </bean>
 
     <bean id="wikipediaExtractor"
           class="com.aresWikipediaRelationsExtractor.main.WikipediaExtractorImpl">
         <constructor-arg ref="wikipediaProcessingDataFactory"/>
         <constructor-arg ref="aresExtractionHandler"/>
-        <constructor-arg ref="reverbSemanticRelationsExtractor"/>
         <constructor-arg ref="stanfordSemanticRelationsExtractor"/>
     </bean>
 

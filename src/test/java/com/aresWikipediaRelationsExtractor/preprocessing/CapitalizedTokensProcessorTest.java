@@ -2,6 +2,8 @@ package com.aresWikipediaRelationsExtractor.preprocessing;
 
 import com.aresWikipediaRelationsExtractor.data.InputData;
 import com.aresWikipediaRelationsExtractor.factories.InputDataFactory;
+import com.aresWikipediaRelationsExtractor.preprocessing.capitalization.CapitalizedTokensPreprocessor;
+import com.aresWikipediaRelationsExtractor.preprocessing.capitalization.CapitalizedTokensPreprocessorImpl;
 import com.aresWikipediaRelationsExtractor.tagger.PosTagger;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

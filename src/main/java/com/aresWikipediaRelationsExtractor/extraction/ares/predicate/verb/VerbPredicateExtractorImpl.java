@@ -15,8 +15,6 @@ import static com.aresWikipediaRelationsExtractor.cache.SemanticExtractionFilter
  */
 public class VerbPredicateExtractorImpl implements VerbPredicateExtractor {
 
-    private final static Logger LOGGER = Logger.getLogger(VerbPredicateExtractorImpl.class.getName());
-
     private VerbPredicateSequenceExtractor verbPredicateSequenceExtractor;
 
     public VerbPredicateExtractorImpl(VerbPredicateSequenceExtractor verbPredicateSequenceExtractor) {
@@ -27,66 +25,73 @@ public class VerbPredicateExtractorImpl implements VerbPredicateExtractor {
     public void extract(WikipediaProcessingData wikipediaProcessingData, SemanticPreprocessingData semanticPreprocessingData) {
         List<String> tokensList = semanticPreprocessingData.getTokensList();
         List<String> tagsList = semanticPreprocessingData.getTagsList();
-        String atomicPredicate = "";
-        String extendedPredicate = "";
+
         int verbIndex = semanticPreprocessingData.getVerbIndex();
         int modalVerbIndex = semanticPreprocessingData.getModalVerbIndex();
         int haveBeenSequenceStartIndex = semanticPreprocessingData.getHaveBeenSequenceStartIndex();
         int haveVerbEdSequenceStartIndex = semanticPreprocessingData.getHaveVerbEdSequenceStartIndex();
         int doVerbSequenceStartIndex = semanticPreprocessingData.getDoVerbSequenceStartIndex();
+
         if (modalVerbIndex > -1) {
-            atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    modalVerbIndex, SemanticExtractionFilterCache.modalVerbSequenceAtomicAllowedTags);
-            extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    modalVerbIndex, SemanticExtractionFilterCache.modalVerbSequenceExtendedAllowedTags);
-            wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
-            wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+            processModalVerbSequence(wikipediaProcessingData, tokensList, tagsList, modalVerbIndex);
         } else if (haveBeenSequenceStartIndex > -1) {
-            atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    haveBeenSequenceStartIndex, SemanticExtractionFilterCache.haveBeenSequenceAtomicAllowedTags);
-            extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    haveBeenSequenceStartIndex, SemanticExtractionFilterCache.haveBeenSequenceExtendedAllowedTags);
-            wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
-            wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+            processHaveBeenSequence(wikipediaProcessingData, tokensList, tagsList, haveBeenSequenceStartIndex);
         } else if (haveVerbEdSequenceStartIndex > -1) {
-            atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    haveVerbEdSequenceStartIndex, SemanticExtractionFilterCache.haveVerbEdSequenceAtomicAllowedTags);
-            extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    haveVerbEdSequenceStartIndex, SemanticExtractionFilterCache.haveVerbEdSequenceExtendedAllowedTags);
-            wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
-            wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+            processHaveVerbEdSequence(wikipediaProcessingData, tokensList, tagsList, haveVerbEdSequenceStartIndex);
         } else if (doVerbSequenceStartIndex > -1) {
-            atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    doVerbSequenceStartIndex, SemanticExtractionFilterCache.doVerbSequenceAtomicAllowedTags);
-            extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    doVerbSequenceStartIndex, SemanticExtractionFilterCache.doVerbSequenceExtendedAllowedTags);
-            wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
-            wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+            processDoVerbSequence(wikipediaProcessingData, tokensList, tagsList, doVerbSequenceStartIndex);
         } else {
-            atomicPredicate = tokensList.get(verbIndex);
-            extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
-                    verbIndex, SemanticExtractionFilterCache.simpleVerbSequenceExtendedAllowedTags);
-            wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
-            wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+            processStandardVerbSequence(wikipediaProcessingData, tokensList, tagsList, verbIndex);
         }
-        //LOGGER.info("Extended verb predicate: " + extendedPredicate);
-        //LOGGER.info("Atomic verb predicate: " + atomicPredicate);
-        //LOGGER.info("Is negative verb predicate: " + isNegativeVerbPredicate);
     }
 
+    private void processModalVerbSequence(WikipediaProcessingData wikipediaProcessingData, List<String> tokensList,
+                                          List<String> tagsList, int modalVerbIndex) {
+        String atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                modalVerbIndex, SemanticExtractionFilterCache.modalVerbSequenceAtomicAllowedTags);
+        String extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                modalVerbIndex, SemanticExtractionFilterCache.modalVerbSequenceExtendedAllowedTags);
+        wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
+        wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+    }
 
-    private boolean isNegativeVerbPredicate(int searchStartIndex, List<String> tagsList) {
-        if (searchStartIndex == -1) {
-            return false;
-        } else {
-            for (int i = searchStartIndex; i < tagsList.size(); i++) {
-                String tag = tagsList.get(i);
-                if (negativeVerbPredicateTags.contains(tag)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+    private void processHaveBeenSequence(WikipediaProcessingData wikipediaProcessingData, List<String> tokensList,
+                                         List<String> tagsList, int haveBeenSequenceStartIndex) {
+        String atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                haveBeenSequenceStartIndex, SemanticExtractionFilterCache.haveBeenSequenceAtomicAllowedTags);
+        String extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                haveBeenSequenceStartIndex, SemanticExtractionFilterCache.haveBeenSequenceExtendedAllowedTags);
+        wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
+        wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+    }
+
+    private void processHaveVerbEdSequence(WikipediaProcessingData wikipediaProcessingData, List<String> tokensList,
+                                           List<String> tagsList, int haveVerbEdSequenceStartIndex) {
+        String atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                haveVerbEdSequenceStartIndex, SemanticExtractionFilterCache.haveVerbEdSequenceAtomicAllowedTags);
+        String extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                haveVerbEdSequenceStartIndex, SemanticExtractionFilterCache.haveVerbEdSequenceExtendedAllowedTags);
+        wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
+        wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+    }
+
+    private void processDoVerbSequence(WikipediaProcessingData wikipediaProcessingData, List<String> tokensList,
+                                       List<String> tagsList, int doVerbSequenceStartIndex) {
+        String atomicPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                doVerbSequenceStartIndex, SemanticExtractionFilterCache.doVerbSequenceAtomicAllowedTags);
+        String extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                doVerbSequenceStartIndex, SemanticExtractionFilterCache.doVerbSequenceExtendedAllowedTags);
+        wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
+        wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
+    }
+
+    private void processStandardVerbSequence(WikipediaProcessingData wikipediaProcessingData, List<String> tokensList,
+                                             List<String> tagsList, int verbIndex) {
+        String atomicPredicate = tokensList.get(verbIndex);
+        String extendedPredicate = verbPredicateSequenceExtractor.extract(wikipediaProcessingData, tokensList, tagsList,
+                verbIndex, SemanticExtractionFilterCache.simpleVerbSequenceExtendedAllowedTags);
+        wikipediaProcessingData.setAtomicVerbPredicate(atomicPredicate);
+        wikipediaProcessingData.setExtendedVerbPredicate(extendedPredicate);
     }
 
 

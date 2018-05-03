@@ -1,7 +1,6 @@
 package com.aresWikipediaRelationsExtractor.writer;
 
 import com.aresWikipediaRelationsExtractor.data.WikipediaProcessingData;
-import edu.stanford.nlp.ie.util.RelationTriple;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -26,7 +25,7 @@ public class StanfordWikipediaDataWriterImpl implements StanfordWikipediaDataWri
                                 "\"" + removeDoubleQuotes(wikipediaProcessingData.getStanfordRelation()) + "\"" + "," +
                                 "\"" + removeDoubleQuotes(wikipediaProcessingData.getStanfordObject()) + "\"" + "," +
                                 "\"" + removeDoubleQuotes(wikipediaProcessingData.getSentence()) + "\"" + "," +
-                                "\"" + removeDoubleQuotes(wikipediaProcessingData.getObject()) + "\"";
+                                "\"" + removeDoubleQuotes(wikipediaProcessingData.getTopic()) + "\"";
                     } catch (Exception e) {
                         continue;
                     }

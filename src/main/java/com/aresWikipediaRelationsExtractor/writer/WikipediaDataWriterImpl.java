@@ -27,7 +27,7 @@ public class WikipediaDataWriterImpl implements WikipediaDataWriter {
                             "\"" + removeDoubleQuotes(wikipediaProcessingData.getAtomicNounPredicate()) + "\"" + "," +
                             "\"" + removeDoubleQuotes(wikipediaProcessingData.getExtendedNounPredicate()) + "\"" + "," +
                             "\"" + removeDoubleQuotes(wikipediaProcessingData.getSentence()) + "\"" + "," +
-                            "\"" + removeDoubleQuotes(wikipediaProcessingData.getObject()) + "\"";
+                            "\"" + removeDoubleQuotes(wikipediaProcessingData.getTopic()) + "\"";
                 } catch (Exception e) {
                     continue;
                 }

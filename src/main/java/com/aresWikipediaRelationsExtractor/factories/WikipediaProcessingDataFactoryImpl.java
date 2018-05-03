@@ -24,7 +24,7 @@ public class WikipediaProcessingDataFactoryImpl implements WikipediaProcessingDa
         String filteredSentence = tokenizer.convertTokensListToSentence(tokens);
         wikipediaProcessingData.setSentence(filteredSentence);
 
-        wikipediaProcessingData.setObject(split[1]);
+        wikipediaProcessingData.setTopic(split[1]);
         return wikipediaProcessingData;
     }
 

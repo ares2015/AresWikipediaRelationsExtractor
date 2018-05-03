@@ -21,7 +21,7 @@ public final class WikipediaProcessingData {
 
     private String sentence;
 
-    private String object;
+    private String topic;
 
     private int verbPredicateEndIndex;
 
@@ -45,12 +45,12 @@ public final class WikipediaProcessingData {
         this.sentence = sentence;
     }
 
-    public String getObject() {
-        return object;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setObject(String object) {
-        this.object = object;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getAtomicSubject() {

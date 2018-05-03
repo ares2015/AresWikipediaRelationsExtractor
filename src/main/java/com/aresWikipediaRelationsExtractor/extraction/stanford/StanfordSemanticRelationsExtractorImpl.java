@@ -36,6 +36,7 @@ public class StanfordSemanticRelationsExtractorImpl implements StanfordSemanticR
 
     @Override
     public int extract(List<WikipediaProcessingData> wikipediaProcessingDataList, int id) throws IOException {
+        int rowNumber = 0;
         for (WikipediaProcessingData wikipediaProcessingData : wikipediaProcessingDataList) {
             String sentence = wikipediaProcessingData.getSentence();
             Document doc = new Document(sentence);
@@ -43,10 +44,14 @@ public class StanfordSemanticRelationsExtractorImpl implements StanfordSemanticR
                 for (Sentence sent : doc.sentences()) {
                     for (RelationTriple triple : sent.openieTriples()) {
                         if (isCorrectVerbPredicate(triple.relation)) {
+                            rowNumber++;
                             wikipediaProcessingData.setStanfordCorrectRelation(true);
                             wikipediaProcessingData.setStanfordSubject(triple.subject.toString());
                             wikipediaProcessingData.setStanfordRelation(triple.relation.toString());
                             wikipediaProcessingData.setStanfordObject(triple.object.toString());
+                            LOGGER.info("STANFORD algorithm extraction data: " + triple.subject.toString() + " | " + triple.relation.toString() + "|" + triple.object.toString());
+                            rowNumber++;
+                            System.out.println("Row number: " + rowNumber);
                         }
                     }
                 }

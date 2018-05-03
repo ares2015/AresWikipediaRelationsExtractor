@@ -48,6 +48,7 @@ public class AresExtractionHandlerImpl implements AresExtractionHandler {
 
     @Override
     public int handle(List<WikipediaProcessingData> wikipediaProcessingDataList, int id) throws IOException {
+        int rowNumber = 0;
         for (WikipediaProcessingData wikipediaProcessingData : wikipediaProcessingDataList) {
             String sentence = wikipediaProcessingData.getSentence();
             try {
@@ -56,8 +57,7 @@ public class AresExtractionHandlerImpl implements AresExtractionHandler {
                 capitalizedTokensPreprocessor.process(inputData);
                 List<String> tagsList = inputData.getTagsList();
                 List<String> tokensList = inputData.getTokensList();
-                semanticallyExtractSentence(tokensList, tagsList, wikipediaProcessingData);
-
+                rowNumber = semanticallyExtractSentence(rowNumber, tokensList, tagsList, wikipediaProcessingData);
             } catch (Exception e) {
                 continue;
             }
@@ -74,7 +74,7 @@ public class AresExtractionHandlerImpl implements AresExtractionHandler {
         return wikipediaDataWriter.write(actualWriterPath, wikipediaProcessingDataList, id, false);
     }
 
-    private void semanticallyExtractSentence(List<String> tokensList, List<String> tagsList, WikipediaProcessingData wikipediaProcessingData) {
+    private int semanticallyExtractSentence(int rowNumber, List<String> tokensList, List<String> tagsList, WikipediaProcessingData wikipediaProcessingData) {
         SemanticPreprocessingData semanticPreprocessingData = semanticPreprocessor.preprocess(tokensList, tagsList);
         wikipediaProcessingData.setTokensList(semanticPreprocessingData.getTokensList());
         wikipediaProcessingData.setTagsList(semanticPreprocessingData.getTagsList());
@@ -83,7 +83,10 @@ public class AresExtractionHandlerImpl implements AresExtractionHandler {
             LOGGER.info("ARES algorithm extraction data: " + wikipediaProcessingData.getAtomicSubject() + " | " + wikipediaProcessingData.getExtendedSubject()
                     + "|" + wikipediaProcessingData.getAtomicVerbPredicate() + "|" + wikipediaProcessingData.getExtendedVerbPredicate() + "|" +
                     wikipediaProcessingData.getAtomicNounPredicate() + "|" + wikipediaProcessingData.getExtendedNounPredicate() + "|" + wikipediaProcessingData.getSentence());
+            rowNumber++;
+            System.out.println("Row number: " + rowNumber);
         }
+        return rowNumber;
     }
 
 

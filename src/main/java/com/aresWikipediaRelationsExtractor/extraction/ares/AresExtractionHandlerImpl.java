@@ -21,7 +21,7 @@ public class AresExtractionHandlerImpl implements AresExtractionHandler {
 
     private final static Logger LOGGER = Logger.getLogger(AresExtractionHandlerImpl.class.getName());
 
-    private String WRITER_PATH = "C:\\Users\\Oliver\\Documents\\NlpTrainingData\\AresWikipediaAnalyser\\PostExtraction\\";
+    private String WRITER_PATH = "C:\\Users\\Oliver\\Documents\\NlpTrainingData\\AresWikipediaExtraction\\AresWikipediaExtractionData\\";
 
     private InputDataFactory inputDataFactory;
 

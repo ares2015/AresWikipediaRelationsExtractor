@@ -26,7 +26,7 @@ public class StanfordSemanticRelationsExtractorImpl implements StanfordSemanticR
 
     private final static Logger LOGGER = Logger.getLogger(StanfordSemanticRelationsExtractorImpl.class.getName());
 
-    private String WRITER_PATH = "C:\\Users\\Oliver\\Documents\\NlpTrainingData\\AresWikipediaAnalyser\\PostExtraction\\";
+    private String WRITER_PATH = "C:\\Users\\Oliver\\Documents\\NlpTrainingData\\AresWikipediaAnalyser\\AresWikipediaExtraction\\AresWikipediaExtractionData\\";
 
     private StanfordWikipediaDataWriter stanfordWikipediaDataWriter;
 
@@ -44,12 +44,28 @@ public class StanfordSemanticRelationsExtractorImpl implements StanfordSemanticR
                 for (Sentence sent : doc.sentences()) {
                     for (RelationTriple triple : sent.openieTriples()) {
                         if (isCorrectVerbPredicate(triple.relation)) {
-                            rowNumber++;
                             wikipediaProcessingData.setStanfordCorrectRelation(true);
-                            wikipediaProcessingData.setStanfordSubject(triple.subject.toString());
-                            wikipediaProcessingData.setStanfordRelation(triple.relation.toString());
-                            wikipediaProcessingData.setStanfordObject(triple.object.toString());
-                            LOGGER.info("STANFORD algorithm extraction data: " + triple.subject.toString() + " | " + triple.relation.toString() + "|" + triple.object.toString());
+
+                            rowNumber++;
+                            String subject = "";
+                            for (int j = 0; j <= triple.subject.size() - 1; j++) {
+                                subject += " " + triple.subject.get(j).value() + " ";
+                            }
+                            wikipediaProcessingData.setStanfordSubject(subject);
+
+                            String relation = "";
+                            for (int j = 0; j <= triple.relation.size() - 1; j++) {
+                                relation += " " + triple.relation.get(j).value() + " ";
+                            }
+                            wikipediaProcessingData.setStanfordRelation(relation);
+
+                            String object = "";
+                            for (int j = 0; j <= triple.object.size() - 1; j++) {
+                                object += " " + triple.object.get(j).value() + " ";
+                            }
+                            wikipediaProcessingData.setStanfordObject(object);
+                            
+                            LOGGER.info("STANFORD algorithm extraction data: " + subject + " | " + relation + "|" + object);
                             rowNumber++;
                             System.out.println("Row number: " + rowNumber);
                         }
